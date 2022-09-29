@@ -42,7 +42,7 @@ class DetailPage extends GetView<DetailController> {
                   height: 4.0,
                 ),
                 Text(
-                    "发现日期：${DateTime.parse(controller.torrentRes.torrent!.meta!.createAt).format('y-mm-dd')}   资源大小：${filesize(controller.torrentRes.torrent!.length)}"),
+                    "发现日期：${DateTime.parse(controller.torrentRes.torrent!.meta!.createAt).format('y-M-dd')}   资源大小：${filesize(controller.torrentRes.torrent!.length)}"),
                 const SizedBox(
                   height: 8.0,
                 ),

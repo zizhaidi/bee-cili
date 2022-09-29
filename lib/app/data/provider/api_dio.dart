@@ -67,7 +67,7 @@ class DioClient {
   // 获取推广内容
   Future<Response> getAds() => _dio.get(
         '${baseUrl}ads',
-        // options: buildCacheOptions(const Duration(hours: 1)),
+        options: buildCacheOptions(const Duration(hours: 1)),
       );
 
   // 获取种子详情
