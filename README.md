@@ -1,16 +1,10 @@
-# magnet_search_app
+这是一个非常简单的苹果+安卓双端APP，甚至可以自行构建windows/linux/macos/web等版本。
 
-A new Flutter project.
+主要技术：dht爬虫+后端API+Flutter全端应用方向
 
-## Getting Started
+**温馨提示：** 查找到资源之后，左滑列表即可复制磁力！
 
-This project is a starting point for a Flutter application.
+## 示例图：
+![磁力APP](1.png "蜂之磁力搜索")
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![磁力APP](2.png "蜂之磁力搜索")
