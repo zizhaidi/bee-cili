@@ -1,4 +1,4 @@
-这是一个非常简单的苹果+安卓双端APP，甚至可以自行构建windows/linux/macos/web等版本。
+这是一个非常简单的MACOS+WINDOWS+苹果+安卓磁力搜索APP应用程序，全端都使用flutter开发。
 
 主要技术：dht爬虫+后端API+Flutter全端应用方向
 
