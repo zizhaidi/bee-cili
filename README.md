@@ -4,6 +4,9 @@
 
 **温馨提示：** 查找到资源之后，左滑列表即可复制磁力！
 
+## 下载地址：
+https://github.com/zizhaidi/bee-cili/releases
+
 ## 示例图：
 ![磁力APP](1.png "蜂之磁力搜索")
 
