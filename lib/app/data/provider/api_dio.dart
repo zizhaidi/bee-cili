@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
+import 'package:get/get_utils/src/platform/platform.dart';
 
 const baseUrl = 'https://api.beecili.com/';
 const apiKey = 'mytestservers';
@@ -25,6 +26,23 @@ class DioClient {
         Duration(seconds: 3), // wait 3 sec before third retry
       ],
     ));
+    if (GetPlatform.isWindows) {
+      dio = Dio(
+        BaseOptions(
+            connectTimeout: 5000, receiveTimeout: 4000, headers: headers),
+      );
+      dio.interceptors.add(RetryInterceptor(
+        dio: dio,
+        logPrint: print, // specify log function (optional)
+        retries: 3, // retry count (optional)
+        retryDelays: const [
+          // set delays between retries (optional)
+          Duration(seconds: 1), // wait 1 sec before first retry
+          Duration(seconds: 2), // wait 2 sec before second retry
+          Duration(seconds: 3), // wait 3 sec before third retry
+        ],
+      ));
+    }
     return dio;
   }
 
