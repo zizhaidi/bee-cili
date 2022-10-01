@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 
-const baseUrl = 'https://api.baidu.com/';
+const baseUrl = 'https://api.beecili.com/';
 const apiKey = 'mytestservers';
 const headers = {'apikey': apiKey};
 

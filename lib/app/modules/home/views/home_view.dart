@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:get/get.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:magnet_search_app/core/utils/helper.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:simple_html_css/simple_html_css.dart';
@@ -89,62 +90,69 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget searchResult() {
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: 60),
-      itemCount: controller.torrents.length,
-      itemBuilder: (context, index) {
-        if (kDebugMode) {
-          print(index);
-        }
-        if (index > controller.torrents.length * 0.8 &&
-            !controller.loadmoreLoading &&
-            !controller.nomore) {
+    return LazyLoadScrollView(
+      onEndOfPage: () {
+        if (!controller.loadmoreLoading) {
           controller.loadMore();
         }
-        return Slidable(
-          // The end action pane is the one at the right or the bottom side.
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              SlidableAction(
-                // An action can be bigger than the others.
-                onPressed: (context) {
-                  FlutterClipboard.copy(controller.torrents[index].magnet!)
-                      .then(
-                    (value) =>
-                        Get.snackbar('提醒', '复制成功！打开迅雷APP自动开始下载，配合迅雷云盘更好用哟！'),
-                  );
-                },
-                icon: Icons.copy,
-                label: '复制磁力',
-              ),
-              SlidableAction(
-                // An action can be bigger than the others.
-                onPressed: (context) {
-                  Get.toNamed(
-                      '/detail?id=${controller.torrents[index].id}&title=${controller.torrents[index].name}');
-                },
-                icon: Icons.description,
-                label: '详情',
-              ),
-            ],
-          ),
-
-          // The child of the Slidable is what the user sees when the
-          // component is not dragged.
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(0),
-            title: RichText(
-              text: HTML.toTextSpan(context, controller.torrents[index].name),
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle:
-                Text('资源大小：${filesize(controller.torrents[index].length)}'),
-          ),
-        );
       },
-    ).paddingOnly(left: 16, right: 16);
+      child: ListView.builder(
+        padding: const EdgeInsets.only(top: 60),
+        itemCount: controller.torrents.length,
+        itemBuilder: (context, index) {
+          // if (kDebugMode) {
+          //   print(index);
+          // }
+          // if (index > controller.torrents.length * 0.8 &&
+          //     !controller.loadmoreLoading &&
+          //     !controller.nomore) {
+          //   controller.loadMore();
+          // }
+          return Slidable(
+            // The end action pane is the one at the right or the bottom side.
+            endActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
+                  // An action can be bigger than the others.
+                  onPressed: (context) {
+                    FlutterClipboard.copy(controller.torrents[index].magnet!)
+                        .then(
+                      (value) =>
+                          Get.snackbar('提醒', '复制成功！打开迅雷APP自动开始下载，配合迅雷云盘更好用哟！'),
+                    );
+                  },
+                  icon: Icons.copy,
+                  label: '复制磁力',
+                ),
+                SlidableAction(
+                  // An action can be bigger than the others.
+                  onPressed: (context) {
+                    Get.toNamed(
+                        '/detail?id=${controller.torrents[index].id}&title=${controller.torrents[index].name}');
+                  },
+                  icon: Icons.description,
+                  label: '详情',
+                ),
+              ],
+            ),
+
+            // The child of the Slidable is what the user sees when the
+            // component is not dragged.
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(0),
+              title: RichText(
+                text: HTML.toTextSpan(context, controller.torrents[index].name),
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+              ),
+              subtitle:
+                  Text('资源大小：${filesize(controller.torrents[index].length)}'),
+            ),
+          );
+        },
+      ).paddingOnly(left: 16, right: 16),
+    );
   }
 
   Widget scrollContent() {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:magnet_search_app/app/data/model/ads.dart';
 import 'package:magnet_search_app/app/data/model/status.dart';
@@ -53,13 +54,28 @@ class HomeController extends GetxController {
   }
 
   search(String query) {
+    page = 1;
     loading = true;
     searchQuery = query;
+    nomore = false;
+    if (kDebugMode) {
+      print(query);
+    }
     _dio.getTorrents(limit: limit, page: page, q: query).then((value) {
       torrentsRes = TorrentsRes.fromJson(value.data);
-      if (torrentsRes.torrents.length < limit) {
-        nomore = true;
+      torrents = torrentsRes.torrents;
+      if (torrents.length == 0) {
+        Get.snackbar('提醒', '未找到任何内容，爬虫根据关键词爬取中！');
       }
+      loading = false;
+    });
+  }
+
+  refreshing() {
+    page = 1;
+    loading = true;
+    _dio.getTorrents(limit: limit, page: page, q: searchQuery).then((value) {
+      torrentsRes = TorrentsRes.fromJson(value.data);
       torrents = torrentsRes.torrents;
       loading = false;
     });
@@ -67,15 +83,15 @@ class HomeController extends GetxController {
 
   loadMore() {
     page += 1;
-    print(page);
-    print(searchQuery);
+    if (kDebugMode) {
+      print(page);
+    }
     loadmoreLoading = true;
     _dio.getTorrents(limit: limit, page: page, q: searchQuery).then((value) {
       TorrentsRes newTorrentsRes = TorrentsRes.fromJson(value.data);
-      if (newTorrentsRes.torrents.length < limit) {
+      if (newTorrentsRes.torrents.isEmpty) {
         nomore = true;
-      }
-      if (!nomore) {
+      } else {
         torrents.addAll(newTorrentsRes.torrents);
       }
       loadmoreLoading = false;
