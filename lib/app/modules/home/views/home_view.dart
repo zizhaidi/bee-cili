@@ -98,16 +98,38 @@ class HomeView extends GetView<HomeController> {
       },
       child: ListView.builder(
         padding: const EdgeInsets.only(top: 60),
-        itemCount: controller.torrents.length,
+        itemCount: controller.nomore || controller.loadmoreLoading
+            ? controller.torrents.length + 1
+            : controller.torrents.length,
         itemBuilder: (context, index) {
-          // if (kDebugMode) {
-          //   print(index);
-          // }
+          if (kDebugMode) {
+            print(index);
+          }
           // if (index > controller.torrents.length * 0.8 &&
           //     !controller.loadmoreLoading &&
           //     !controller.nomore) {
           //   controller.loadMore();
           // }
+          if (controller.nomore && controller.torrents.length == index) {
+            return const Center(
+              child: Text('没有更多资源了！'),
+            ).paddingSymmetric(vertical: 16);
+          }
+          if (controller.loadmoreLoading &&
+              controller.torrents.length == index) {
+            return Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  Text('加载资源中'),
+                ],
+              ),
+            ).paddingSymmetric(vertical: 16);
+          }
           return Slidable(
             // The end action pane is the one at the right or the bottom side.
             endActionPane: ActionPane(
@@ -169,6 +191,10 @@ class HomeView extends GetView<HomeController> {
                   : ListView(
                       padding: const EdgeInsets.only(top: 80),
                       children: [
+                        const Text('温馨提示：查找到资源之后，左滑就可以复制磁力或者查看详情！'),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
                         const Text(
                           '推广内容',
                           style: TextStyle(

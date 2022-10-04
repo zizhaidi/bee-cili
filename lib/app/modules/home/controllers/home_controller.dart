@@ -35,7 +35,13 @@ class HomeController extends GetxController {
   get loading => _loading.value;
   set loading(value) => _loading.value = value;
 
-  bool nomore = false;
+  final _nomore = false.obs;
+  get nomore => _nomore.value;
+  set nomore(value) => _nomore.value = value;
+
+  final _loadmoreLoading = false.obs;
+  get loadmoreLoading => _loadmoreLoading.value;
+  set loadmoreLoading(value) => _loadmoreLoading.value = value;
 
   final DioClient _dio = DioClient();
 
@@ -43,8 +49,6 @@ class HomeController extends GetxController {
   int page = 1;
 
   String searchQuery = '';
-
-  bool loadmoreLoading = false;
 
   @override
   void onInit() {
